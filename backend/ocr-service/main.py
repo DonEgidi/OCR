@@ -27,6 +27,15 @@ IMAGE_MIME_TYPES = {
 }
 
 
+def build_rabbitmq_params():
+    params = pika.URLParameters(RABBITMQ_URL)
+    params.heartbeat = 1800
+    params.blocked_connection_timeout = 600
+    params.connection_attempts = 5
+    params.retry_delay = 5
+    return params
+
+
 def normalize_token_usage(usage: Optional[dict]) -> Optional[dict]:
     if not isinstance(usage, dict):
         return None
@@ -316,7 +325,7 @@ def start_consumer():
     connection = None
     for i in range(max_retries):
         try:
-            params = pika.URLParameters(RABBITMQ_URL)
+            params = build_rabbitmq_params()
             connection = pika.BlockingConnection(params)
             print("Connected to RabbitMQ")
             break
