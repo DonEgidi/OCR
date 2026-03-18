@@ -1,0 +1,53 @@
+flowchart LR
+    user[Usuario]
+    dashboard[Frontend Dashboard\nVite + React]
+    gateway[API Gateway\nFastAPI]
+    db[(PostgreSQL)]
+    rabbit[(RabbitMQ)]
+    keymgr[Key Manager\nFastAPI]
+    ocr[OCR Service\nOpenRouter OCR]
+    llm[LLM Service\nOpenRouter JSON]
+    ftpapi[FTP API\nFastAPI]
+    ftp[(FTP Server)]
+    openrouter[OpenRouter\nModelos OCR + LLM]
+
+    user --> dashboard
+    dashboard -->|HTTP| gateway
+
+    gateway -->|CRUD documentos\nlogs\nresultados| db
+    gateway -->|consulta / gestion de claves| keymgr
+    gateway -->|subida / visualizacion\nde archivos| ftpapi
+    ftpapi --> ftp
+
+    gateway -->|enqueue document_uploaded| rabbit
+    rabbit -->|document_uploaded| ocr
+
+    ocr -->|descarga archivo| ftpapi
+    ocr -->|obtiene API keys activas| keymgr
+    ocr -->|OCR PDF / imagen| openrouter
+    ocr -->|ocr_complete| rabbit
+    ocr -->|text_extracted| rabbit
+    ocr -->|processing_failed| rabbit
+
+    rabbit -->|text_extracted| llm
+    llm -->|obtiene API keys activas| keymgr
+    llm -->|normalizacion a JSON| openrouter
+    llm -->|processing_complete| rabbit
+    llm -->|processing_failed| rabbit
+
+    rabbit -->|ocr_complete| gateway
+    rabbit -->|processing_complete| gateway
+    rabbit -->|processing_failed| gateway
+
+    gateway -->|persistencia final\nraw_text + json_result + metadatos| db
+    gateway -->|archivo original / detalle| dashboard
+
+    classDef storage fill:#eef6ff,stroke:#2b6cb0,color:#1a365d;
+    classDef service fill:#f7fafc,stroke:#4a5568,color:#1a202c;
+    classDef external fill:#fff7ed,stroke:#c05621,color:#7b341e;
+    classDef queue fill:#f0fff4,stroke:#2f855a,color:#22543d;
+
+    class db,ftp storage;
+    class gateway,keymgr,ocr,llm,ftpapi,dashboard service;
+    class rabbit queue;
+    class user,openrouter external;

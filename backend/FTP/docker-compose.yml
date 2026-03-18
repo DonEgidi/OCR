@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  # Servidor FTP
+  ftp-server:
+    image: stilliard/pure-ftpd
+    container_name: ftp-server
+    ports:
+      - "21:21"
+      - "30000-30009:30000-30009"
+    volumes:
+      - ./ftp_data:/home/ftpusers
+    environment:
+      PUBLICHOST: "localhost"
+      FTP_USER_NAME: ${FTP_USER:-ftpuser}
+      FTP_USER_PASS: ${FTP_PASS:-ftppass}
+      FTP_USER_HOME: /home/ftpusers
+    restart: always
+    networks:
+      - ftp-network
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "21"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # API REST para gestión de archivos FTP
+  ftp-api:
+    build: ./api
+    container_name: ftp-api
+    ports:
+      - "8000:8000"
+    environment:
+      FTP_HOST: ftp-server
+      FTP_PORT: 21
+      FTP_USER: ${FTP_USER:-ftpuser}
+      FTP_PASS: ${FTP_PASS:-ftppass}
+    depends_on:
+      - ftp-server
+    restart: always
+    networks:
+      - ftp-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Frontend React
+  ftp-frontend:
+    build: ./frontend
+    container_name: ftp-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - ftp-api
+    restart: always
+    networks:
+      - ftp-network
+
+networks:
+  ftp-network:
+    driver: bridge
+
+volumes:
+  ftp_data:

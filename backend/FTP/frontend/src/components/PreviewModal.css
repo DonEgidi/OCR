@@ -1,0 +1,164 @@
+.modal-preview {
+  max-width: 900px;
+  max-height: 90vh;
+}
+
+.preview-modal-body {
+  padding: 0;
+  max-height: calc(90vh - 140px);
+  overflow: auto;
+}
+
+.preview-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  padding: 16px 24px;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.preview-info-item {
+  font-size: 14px;
+  color: #374151;
+}
+
+.preview-info-item strong {
+  color: #111827;
+  margin-right: 8px;
+}
+
+.preview-content {
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  background: #f9fafb;
+}
+
+/* Image Preview */
+.image-preview {
+  background: #000;
+}
+
+.image-preview img {
+  max-width: 100%;
+  max-height: 600px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+/* PDF Preview */
+.pdf-preview {
+  padding: 0;
+  min-height: 600px;
+}
+
+.pdf-preview iframe {
+  width: 100%;
+  height: 600px;
+  border: none;
+}
+
+/* Video Preview */
+.video-preview {
+  background: #000;
+}
+
+.video-preview video {
+  max-width: 100%;
+  max-height: 500px;
+  border-radius: 4px;
+}
+
+/* Audio Preview */
+.audio-preview {
+  flex-direction: column;
+  gap: 24px;
+}
+
+.audio-icon {
+  color: #8b5cf6;
+}
+
+.audio-preview audio {
+  width: 100%;
+  max-width: 500px;
+}
+
+/* Text Preview */
+.text-preview {
+  padding: 0;
+  min-height: 500px;
+}
+
+.text-preview iframe {
+  width: 100%;
+  height: 500px;
+  border: none;
+  background: white;
+}
+
+/* No Preview */
+.no-preview {
+  flex-direction: column;
+  gap: 16px;
+  text-align: center;
+}
+
+.no-preview-icon {
+  color: #9ca3af;
+}
+
+.no-preview h3 {
+  font-size: 20px;
+  color: #374151;
+  margin: 0;
+}
+
+.no-preview p {
+  color: #6b7280;
+  margin: 0;
+}
+
+.file-type {
+  font-size: 24px;
+  font-weight: 600;
+  color: #2563eb;
+  margin-top: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modal-preview {
+    max-width: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  .preview-modal-body {
+    max-height: calc(100vh - 140px);
+  }
+
+  .preview-info {
+    grid-template-columns: 1fr;
+  }
+
+  .preview-content {
+    min-height: 300px;
+  }
+
+  .image-preview img {
+    max-height: 400px;
+  }
+
+  .pdf-preview iframe,
+  .text-preview iframe {
+    height: 400px;
+  }
+
+  .video-preview video {
+    max-height: 300px;
+  }
+}

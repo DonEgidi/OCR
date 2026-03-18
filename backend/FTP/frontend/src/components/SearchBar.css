@@ -1,0 +1,127 @@
+.search-bar {
+  margin-bottom: 20px;
+}
+
+.search-form {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+}
+
+.search-input-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  color: #9ca3af;
+}
+
+.search-input {
+  flex: 1;
+  padding: 12px 12px 12px 42px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.filter-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 16px;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  color: #374151;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-toggle:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.search-button {
+  padding: 12px 24px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.search-button:hover {
+  background: #1d4ed8;
+}
+
+.advanced-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filter-group label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.filter-group input {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.filter-group input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+@media (max-width: 768px) {
+  .search-input-group {
+    flex-wrap: wrap;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+
+  .filter-toggle,
+  .search-button {
+    flex: 1;
+  }
+
+  .advanced-filters {
+    grid-template-columns: 1fr;
+  }
+}
